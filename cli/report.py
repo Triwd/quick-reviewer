@@ -3,10 +3,14 @@ from __future__ import annotations
 from pathlib import Path
 
 
-def ensure_report_dir(output: Path | None = None) -> Path:
+def ensure_report_dir(output: Path | None = None, source_file: str = "") -> Path:
     """Ensure the report directory exists and return the output path."""
     if output is None:
-        output = Path("report") / "review_report.md"
+        if source_file:
+            stem = Path(source_file).stem
+            output = Path("report") / f"{stem}_report.md"
+        else:
+            output = Path("report") / "review_report.md"
     output.parent.mkdir(parents=True, exist_ok=True)
     return output
 
