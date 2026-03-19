@@ -74,16 +74,27 @@ def build_prompts(mode: str, paper_content: str, filename: str = "") -> tuple[st
     knowledge = load_knowledge(mode)
     label = _MODE_LABELS.get(mode, mode)
 
+    format_requirement = (
+        "\n\n[输出格式要求] 问题清单和修改建议中的每一条必须以表格形式包含以下四个字段：\n"
+        "| 位置 | 问题类型 | 原文 | 修订建议 |\n"
+        "- 位置：精确到章节和段落，如 '第3章 3.2节 第1段'\n"
+        "- 问题类型：拼写错误、语法错误、标点符号、格式规范、引用格式、内容缺失、逻辑问题、术语不一致等\n"
+        "- 原文：引用原始文本片段\n"
+        "- 修订建议：给出可直接采用的具体修改后文本，不要只写笼统描述\n"
+    )
+
     if mode == "review":
         instruction = (
             "你是一位学术论文审查专家。请严格按照以下审查知识文档中的规则和流程，"
             "对用户提供的论文内容进行全面审查，并输出结构化的审查报告。"
+            + format_requirement
         )
     else:
         instruction = (
             f"你是一位学术论文审查专家。本次任务为【{label}】。"
             f"请**仅**按照以下审查知识文档中的规则，聚焦于该维度进行审查。"
             f"不要超出该维度范围进行其他方面的审查。输出结构化的审查报告。"
+            + format_requirement
         )
 
     file_info = f"**源文件**：`{filename}`\n\n" if filename else ""

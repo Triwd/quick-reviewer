@@ -21,3 +21,5 @@ allowed-tools: [Read, Write, Bash, Glob, Grep]
    - `${CLAUDE_PLUGIN_ROOT}/knowledge/reviewer_simulator.md` — 审稿专家模拟
 3. 输出综合审查报告到 `./report/review_report.md`
 4. 审查完成后清理临时文件
+
+**输出格式要求**：问题清单和修改建议中的每一条必须包含：位置（精确到章节段落）、问题类型、原文文本、修订后文本。以表格形式输出，不要只写笼统描述。
