@@ -65,7 +65,8 @@ async def _run_review(
         console.print(f"[dim]Document split into {len(chunks)} chunks[/dim]")
 
     # Build prompts
-    system_prompt, user_prompt = build_prompts(mode, paper_content)
+    filename = file.name
+    system_prompt, user_prompt = build_prompts(mode, paper_content, filename)
 
     # Create client and stream
     client = create_client(config)
@@ -86,7 +87,7 @@ async def _run_review(
 
     # Save report
     output_path = ensure_report_dir(output)
-    save_report(full_text, output_path)
+    save_report(full_text, output_path, source_file=filename)
     console.print(f"\n[green]Report saved to {output_path}[/green]")
 
 

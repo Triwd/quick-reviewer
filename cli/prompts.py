@@ -65,7 +65,7 @@ _MODE_LABELS: dict[str, str] = {
 }
 
 
-def build_prompts(mode: str, paper_content: str) -> tuple[str, str]:
+def build_prompts(mode: str, paper_content: str, filename: str = "") -> tuple[str, str]:
     """Build system prompt and user prompt for the LLM call.
 
     Returns:
@@ -86,7 +86,9 @@ def build_prompts(mode: str, paper_content: str) -> tuple[str, str]:
             f"不要超出该维度范围进行其他方面的审查。输出结构化的审查报告。"
         )
 
+    file_info = f"**源文件**：`{filename}`\n\n" if filename else ""
+
     system_prompt = f"{instruction}\n\n{knowledge}"
-    user_prompt = f"请对以下论文进行{label}：\n\n{paper_content}"
+    user_prompt = f"{file_info}请对以下论文进行{label}：\n\n{paper_content}"
 
     return system_prompt, user_prompt
