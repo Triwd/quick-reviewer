@@ -57,6 +57,8 @@ pip install -e ".[docx]"
 
 设置 API Key（二选一）：
 
+**macOS / Linux：**
+
 ```bash
 # Anthropic
 export ANTHROPIC_API_KEY=sk-ant-...
@@ -67,7 +69,29 @@ export QR_PROVIDER=openai
 export QR_BASE_URL=https://api.openai.com/v1  # 或其他兼容端点
 ```
 
-也可以使用配置文件 `~/.quick-reviewer/config.yaml`：
+**Windows (CMD)：**
+
+```cmd
+set ANTHROPIC_API_KEY=sk-ant-...
+
+:: OpenAI 兼容
+set OPENAI_API_KEY=sk-...
+set QR_PROVIDER=openai
+set QR_BASE_URL=https://api.openai.com/v1
+```
+
+**Windows (PowerShell)：**
+
+```powershell
+$env:ANTHROPIC_API_KEY = "sk-ant-..."
+
+# OpenAI 兼容
+$env:OPENAI_API_KEY = "sk-..."
+$env:QR_PROVIDER = "openai"
+$env:QR_BASE_URL = "https://api.openai.com/v1"
+```
+
+也可以使用配置文件（推荐，跨平台通用）`~/.quick-reviewer/config.yaml`：
 
 ```yaml
 provider: anthropic
