@@ -96,7 +96,7 @@ async def _run_review(
     full_text = "".join(collected)
 
     # Save report
-    output_path = ensure_report_dir(output, source_file=filename)
+    output_path = ensure_report_dir(output, source_file=filename, mode=mode)
     save_report(full_text, output_path, source_file=filename)
     console.print(f"\n[green]Report saved to {output_path}[/green]")
 
