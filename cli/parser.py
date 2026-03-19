@@ -12,6 +12,10 @@ _OVERLAP = 500
 
 def read_paper(file_path: Path) -> str:
     """Read paper content from file. Supports .txt, .md, .pdf, .docx."""
+    file_path = file_path.resolve()
+    if not file_path.is_file():
+        raise FileNotFoundError(f"File not found: {file_path}")
+
     suffix = file_path.suffix.lower()
 
     if suffix in (".txt", ".md"):

@@ -58,7 +58,17 @@ async def _run_review(
 
     # Read and parse paper
     console.print(f"[dim]Reading {file}...[/dim]")
-    paper_content = read_paper(file)
+    try:
+        paper_content = read_paper(file)
+    except FileNotFoundError as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(1)
+    except ImportError as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(1)
+    except ValueError as e:
+        console.print(f"[red]Error: {e}[/red]")
+        raise typer.Exit(1)
     chunks = chunk_text(paper_content)
 
     if len(chunks) > 1:
