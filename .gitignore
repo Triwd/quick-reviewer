@@ -1,5 +1,7 @@
 report/
 __pycache__/
+.venv/
+*.egg-info/
 *.tmp
 parsed/
 *_chunks/
