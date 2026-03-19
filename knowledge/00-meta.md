@@ -148,18 +148,18 @@ else:
 
 可同时执行的审查维度（互不影响）：
 
-**5.1 结构审查** → 读取 `structure_review/SKILL.md`
+**5.1 结构审查** → 读取 `structure_review.md`
 - 检查章节完整性
 - 检查标题层级
 - 检查逻辑连贯性
 
-**5.2 语法审查** → 读取 `grammar_spelling/SKILL.md`
+**5.2 语法审查** → 读取 `grammar_spelling.md`
 - 检查错别字
 - 检查英文拼写
 - 检查标点符号
 - 检查格式规范
 
-**5.3 图表审查** → 读取 `figures_tables/SKILL.md`
+**5.3 图表审查** → 读取 `figures_tables.md`
 - 检查编号连续性
 - 检查中英文对应
 - 检查引用准确性
@@ -168,28 +168,28 @@ else:
 
 按章节顺序执行，需保持上下文：
 
-**6.1 引言与相关工作** → 读取 `logic_content/SKILL.md`
+**6.1 引言与相关工作** → 读取 `logic_content.md`
 - 评估引言逻辑
 - 检查文献综述质量
 
-**6.2 方法描述** → 读取 `logic_content/SKILL.md`
+**6.2 方法描述** → 读取 `logic_content.md`
 - 检查问题定义清晰度
 - 检查算法描述完整性
 - 检查公式推导正确性
 
-**6.3 实验设计** → 读取 `logic_content/SKILL.md`
+**6.3 实验设计** → 读取 `logic_content.md`
 - 检查对比方法充分性
 - 检查评价指标合理性
 - 检查消融实验完整性
 
-**6.4 结论与参考文献** → 读取 `references/SKILL.md` + `logic_content/SKILL.md`
+**6.4 结论与参考文献** → 读取 `references.md` + `logic_content.md`
 - 检查结论质量
 - 检查参考文献规范性
 - 检查引用-文献匹配
 
 ### Step 7: 综合评审
 
-读取 `reviewer_simulator/SKILL.md`，从审稿人视角评估：
+读取 `reviewer_simulator.md`，从审稿人视角评估：
 - 创新性（Novelty）
 - 技术正确性（Technical Correctness）
 - 实验充分性（Experimental Validation）
@@ -372,7 +372,7 @@ def cleanup_temp_files():
 ---
 
 *报告生成时间：[时间]*  
-*审查工具：Quick Reviewer v2.0*  
+*审查工具：Quick Reviewer v2.1*  
 *临时文件状态：已清理*
 ```
 
@@ -458,10 +458,10 @@ def cleanup_temp_files():
 
 ## 相关SKILL
 
-- `../doc_parser/SKILL.md` - 文档解析指南
-- `../structure_review/SKILL.md` - 结构审查
-- `../grammar_spelling/SKILL.md` - 语法拼写审查
-- `../figures_tables/SKILL.md` - 图表审查
-- `../references/SKILL.md` - 参考文献审查
-- `../logic_content/SKILL.md` - 逻辑内容审查
-- `../reviewer_simulator/SKILL.md` - 审稿专家模拟
+- `doc_parser.md` - 文档解析指南
+- `structure_review.md` - 结构审查
+- `grammar_spelling.md` - 语法拼写审查
+- `figures_tables.md` - 图表审查
+- `references.md` - 参考文献审查
+- `logic_content.md` - 逻辑内容审查
+- `reviewer_simulator.md` - 审稿专家模拟

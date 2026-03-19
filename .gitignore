@@ -1,0 +1,5 @@
+report/
+*.tmp
+parsed/
+*_chunks/
+extracted_text.txt
