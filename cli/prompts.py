@@ -52,6 +52,19 @@ def load_knowledge(mode: str) -> str:
     return "\n\n---\n\n".join(parts)
 
 
+_MODE_LABELS: dict[str, str] = {
+    "review": "全面审查",
+    "quick": "快速预审",
+    "grammar": "语法拼写专项审查",
+    "references": "参考文献专项审查",
+    "figures": "图表专项审查",
+    "structure": "结构专项审查",
+    "logic": "逻辑内容专项审查",
+    "ai": "AI痕迹检测",
+    "writing": "写作辅助",
+}
+
+
 def build_prompts(mode: str, paper_content: str) -> tuple[str, str]:
     """Build system prompt and user prompt for the LLM call.
 
@@ -59,13 +72,21 @@ def build_prompts(mode: str, paper_content: str) -> tuple[str, str]:
         (system_prompt, user_prompt)
     """
     knowledge = load_knowledge(mode)
+    label = _MODE_LABELS.get(mode, mode)
 
-    system_prompt = (
-        "你是一位学术论文审查专家。请严格按照以下审查知识文档中的规则和流程，"
-        "对用户提供的论文内容进行审查，并输出结构化的审查报告。\n\n"
-        f"{knowledge}"
-    )
+    if mode == "review":
+        instruction = (
+            "你是一位学术论文审查专家。请严格按照以下审查知识文档中的规则和流程，"
+            "对用户提供的论文内容进行全面审查，并输出结构化的审查报告。"
+        )
+    else:
+        instruction = (
+            f"你是一位学术论文审查专家。本次任务为【{label}】。"
+            f"请**仅**按照以下审查知识文档中的规则，聚焦于该维度进行审查。"
+            f"不要超出该维度范围进行其他方面的审查。输出结构化的审查报告。"
+        )
 
-    user_prompt = f"请审查以下论文内容：\n\n{paper_content}"
+    system_prompt = f"{instruction}\n\n{knowledge}"
+    user_prompt = f"请对以下论文进行{label}：\n\n{paper_content}"
 
     return system_prompt, user_prompt
