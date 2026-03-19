@@ -81,15 +81,17 @@ cd quick-reviewer
 
 ### 第 2 步：安装
 
+> **注意**：如果系统中有多个 Python 版本，请确保使用 Python 3.10+ 对应的 pip。建议用 `python3 -m pip` 代替 `pip`，避免装到错误的环境。
+
 ```bash
 # 基础安装
-pip install -e .
+python3 -m pip install -e .
 
 # 如需审查 PDF 文件，额外安装 PDF 解析支持
-pip install -e ".[pdf]"
+python3 -m pip install -e ".[pdf]"
 
 # 如需审查 Word 文件（.docx），额外安装 DOCX 解析支持
-pip install -e ".[docx]"
+python3 -m pip install -e ".[docx]"
 ```
 
 安装完成后，终端中将可以使用 `quick-reviewer` 命令。可通过以下方式验证：
