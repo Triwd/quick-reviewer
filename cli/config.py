@@ -30,7 +30,12 @@ class Config:
         return self.model or _DEFAULT_MODELS.get(self.provider, "")
 
     def resolve_base_url(self) -> str:
-        return self.base_url or _DEFAULT_BASE_URLS.get(self.provider, "")
+        url = self.base_url or _DEFAULT_BASE_URLS.get(self.provider, "")
+        # Strip trailing /v1 or /v1/ to avoid double-prefixing in client code
+        url = url.rstrip("/")
+        if url.endswith("/v1"):
+            url = url[:-3]
+        return url
 
 
 def _load_yaml_config(path: Path) -> dict:
