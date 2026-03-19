@@ -15,6 +15,7 @@ _MODE_FILES: dict[str, list[str]] = {
     "structure": ["doc_parser", "structure_review"],
     "logic": ["doc_parser", "logic_content"],
     "ai": ["doc_parser", "ai_detection"],
+    "reviewer": ["doc_parser", "reviewer_simulator"],
     "writing": ["doc_parser", "writing_assistant"],
 }
 
@@ -61,6 +62,7 @@ _MODE_LABELS: dict[str, str] = {
     "structure": "结构专项审查",
     "logic": "逻辑内容专项审查",
     "ai": "AI痕迹检测",
+    "reviewer": "审稿专家模拟",
     "writing": "写作辅助",
 }
 

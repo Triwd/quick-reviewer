@@ -12,6 +12,7 @@ _MODE_SUFFIXES: dict[str, str] = {
     "structure": "结构审查",
     "logic": "逻辑内容",
     "ai": "AI检测",
+    "reviewer": "审稿模拟",
     "writing": "写作辅助",
 }
 

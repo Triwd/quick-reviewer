@@ -128,6 +128,19 @@ def quick(
 
 
 @app.command()
+def simulate(
+    file: Annotated[Path, typer.Argument(help="Paper file path")],
+    api_key: ApiKeyOpt = None,
+    model: ModelOpt = None,
+    provider: ProviderOpt = None,
+    base_url: BaseUrlOpt = None,
+    output: OutputOpt = None,
+) -> None:
+    """模拟审稿专家评审论文"""
+    asyncio.run(_run_review("reviewer", file, api_key, model, provider, base_url, output))
+
+
+@app.command()
 def check(
     dimension: Annotated[
         str,

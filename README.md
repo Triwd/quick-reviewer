@@ -64,9 +64,10 @@ claude --plugin-dir ~/tools/quick-reviewer
 | `/quick-reviewer:check-references` | 参考文献审查 | `/quick-reviewer:check-references paper.pdf` |
 | `/quick-reviewer:check-logic` | 逻辑内容审查 | `/quick-reviewer:check-logic paper.pdf` |
 | `/quick-reviewer:detect-ai` | AI 痕迹检测 | `/quick-reviewer:detect-ai paper.pdf` |
+| `/quick-reviewer:simulate-review` | 审稿专家模拟评审 | `/quick-reviewer:simulate-review paper.pdf` |
 | `/quick-reviewer:writing-assist` | 写作辅助 | `/quick-reviewer:writing-assist paper.pdf` |
 
-审查报告将自动保存到 `./report/review_report.md`。
+审查报告将自动保存到 `./report/{源文件名}-{审查类型}-report.md`。
 
 ---
 
@@ -217,6 +218,14 @@ quick-reviewer review paper.pdf
 quick-reviewer quick paper.pdf
 ```
 
+#### 审稿专家模拟
+
+模拟审稿专家对论文进行评审，从创新性、技术正确性、实验充分性、写作质量、文献综述五个维度评估，给出推荐意见（Accept / Minor Revision / Major Revision / Reject）：
+
+```bash
+quick-reviewer simulate paper.pdf
+```
+
 #### 专项审查
 
 只检查论文的某个特定维度：
@@ -232,7 +241,7 @@ quick-reviewer check ai paper.pdf             # AI 痕迹检测
 
 #### 指定输出路径
 
-默认报告保存到 `./report/review_report.md`，可通过 `-o` 指定其他路径：
+默认报告保存到 `./report/{源文件名}-{审查类型}-report.md`，可通过 `-o` 指定其他路径：
 
 ```bash
 quick-reviewer review paper.pdf -o ./my-report.md
@@ -259,7 +268,7 @@ quick-reviewer review paper.pdf -o ./my-report.md
 | **参考文献** | `check references` | 引用匹配、格式规范、时效性 |
 | **逻辑内容** | `check logic` | 摘要、方法、实验设计、结论质量 |
 | **AI 检测** | `check ai` | AI 生成痕迹、语言模式分析 |
-| **审稿模拟** | `review` / `quick` | 创新性、技术正确性、推荐意见 |
+| **审稿模拟** | `simulate` | 创新性、技术正确性、推荐意见 |
 | **写作辅助** | 插件 `writing-assist` | 润色、重构、审稿回复 |
 
 问题严重程度分为四级：**Critical**（必须修改） > **Major**（强烈建议） > **Minor**（建议修改） > **Suggestion**（可选优化）
