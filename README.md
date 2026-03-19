@@ -151,20 +151,35 @@ $env:QR_BASE_URL = "https://api.deepseek.com"
 
 #### 方式 B：配置文件（持久生效，推荐）
 
-创建文件 `~/.quick-reviewer/config.yaml`（用户级配置），或在项目根目录创建 `.quick-reviewer.yaml`（项目级配置）：
+在以下**两个位置之一**创建配置文件（注意文件名，不要写错）：
+
+| 级别 | 文件路径 | 说明 |
+|------|---------|------|
+| 用户级 | `~/.quick-reviewer/config.yaml` | 对所有项目生效 |
+| 项目级 | `项目根目录/.quick-reviewer.yaml` | 仅当前项目生效，优先级更高 |
+
+> **注意**：项目级配置的文件名是 `.quick-reviewer.yaml`（以点开头），不是 `config.yaml`。
+
+配置文件示例（二选一，不要同时启用两个 provider）：
+
+**使用 Anthropic：**
 
 ```yaml
-# 使用 Anthropic
 provider: anthropic
 api_key: sk-ant-your-key-here
 model: claude-sonnet-4-20250514         # 可选，不填则使用默认模型
-
-# --- 或使用 OpenAI 兼容服务 ---
-# provider: openai
-# api_key: your-key-here
-# base_url: https://api.deepseek.com    # 你的服务商 API 地址
-# model: deepseek-chat                  # 模型名称
 ```
+
+**使用 OpenAI 兼容服务（DeepSeek、Ollama、通义千问等）：**
+
+```yaml
+provider: openai                        # 必须填 openai，不要填服务商名称
+api_key: your-key-here
+base_url: https://api.deepseek.com      # 服务商 API 地址（不需要带 /v1 后缀）
+model: deepseek-chat                    # 模型名称
+```
+
+> `provider` 只支持两个值：`anthropic` 和 `openai`。所有 OpenAI 兼容的服务（DeepSeek、Ollama、通义千问等）都填 `openai`，通过 `base_url` 区分不同服务商。
 
 > **配置优先级**（从高到低）：命令行参数 > 环境变量 > 项目级配置文件 > 用户级配置文件
 
