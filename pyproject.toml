@@ -14,5 +14,8 @@ dependencies = [
 pdf = ["pymupdf>=1.23"]
 docx = ["python-docx>=1.0"]
 
+[tool.setuptools.packages.find]
+include = ["cli*"]
+
 [project.scripts]
 quick-reviewer = "cli.main:app"
