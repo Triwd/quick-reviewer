@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -24,6 +25,7 @@ class Config:
     api_key: str = ""
     model: str = ""
     base_url: str | None = None
+    api_version: str = "v1"
     max_tokens: int = 8192
 
     def resolve_model(self) -> str:
@@ -31,11 +33,29 @@ class Config:
 
     def resolve_base_url(self) -> str:
         url = self.base_url or _DEFAULT_BASE_URLS.get(self.provider, "")
-        # Strip trailing /v1 or /v1/ to avoid double-prefixing in client code
-        url = url.rstrip("/")
-        if url.endswith("/v1"):
-            url = url[:-3]
-        return url
+        return url.rstrip("/")
+
+
+def build_endpoint(base_url: str, api_version: str, terminal: str) -> str:
+    """Build a full endpoint URL.
+
+    If base_url already contains a version segment (/vN), the version was
+    supplied by the user (possibly mid-path, e.g. host/y/z/v4/prefix), so
+    just append *terminal* directly.
+    Otherwise inject api_version between base_url and terminal.
+
+    Examples::
+
+        build_endpoint("https://api.anthropic.com", "v1", "/messages")
+        # -> https://api.anthropic.com/v1/messages
+
+        build_endpoint("https://gw.com/proxy/v4/pfx", "v1", "/chat/completions")
+        # -> https://gw.com/proxy/v4/pfx/chat/completions
+    """
+    base = base_url.rstrip("/")
+    if re.search(r"/v\d+(/|$)", base):
+        return base + terminal
+    return f"{base}/{api_version}{terminal}"
 
 
 def _load_yaml_config(path: Path) -> dict:
@@ -52,6 +72,7 @@ def load_config(
     api_key: str | None = None,
     model: str | None = None,
     base_url: str | None = None,
+    api_version: str | None = None,
 ) -> Config:
     """Load config with priority: CLI flags > env vars > project config > user config."""
 
@@ -94,11 +115,14 @@ def load_config(
         merged["model"] = model
     if base_url is not None:
         merged["base_url"] = base_url
+    if api_version is not None:
+        merged["api_version"] = api_version
 
     return Config(
         provider=merged.get("provider", "anthropic"),
         api_key=merged.get("api_key", ""),
         model=merged.get("model", ""),
         base_url=merged.get("base_url"),
+        api_version=merged.get("api_version", "v1"),
         max_tokens=int(merged.get("max_tokens", 8192)),
     )

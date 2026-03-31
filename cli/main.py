@@ -31,6 +31,9 @@ ProviderOpt = Annotated[
 BaseUrlOpt = Annotated[
     Optional[str], typer.Option("--base-url", help="API base URL")
 ]
+ApiVersionOpt = Annotated[
+    Optional[str], typer.Option("--api-version", help="API version segment injected before the terminal path (default: v1). Ignored when base-url already contains /vN.")
+]
 OutputOpt = Annotated[
     Optional[Path], typer.Option("--output", "-o", help="Output report path")
 ]
@@ -43,10 +46,12 @@ async def _run_review(
     model: str | None,
     provider: str | None,
     base_url: str | None,
+    api_version: str | None,
     output: Path | None,
 ) -> None:
     config = load_config(
-        provider=provider, api_key=api_key, model=model, base_url=base_url
+        provider=provider, api_key=api_key, model=model,
+        base_url=base_url, api_version=api_version,
     )
 
     if not config.api_key:
@@ -108,10 +113,11 @@ def review(
     model: ModelOpt = None,
     provider: ProviderOpt = None,
     base_url: BaseUrlOpt = None,
+    api_version: ApiVersionOpt = None,
     output: OutputOpt = None,
 ) -> None:
     """对学术论文进行全面审查"""
-    asyncio.run(_run_review("review", file, api_key, model, provider, base_url, output))
+    asyncio.run(_run_review("review", file, api_key, model, provider, base_url, api_version, output))
 
 
 @app.command()
@@ -121,10 +127,11 @@ def quick(
     model: ModelOpt = None,
     provider: ProviderOpt = None,
     base_url: BaseUrlOpt = None,
+    api_version: ApiVersionOpt = None,
     output: OutputOpt = None,
 ) -> None:
     """快速预审论文"""
-    asyncio.run(_run_review("quick", file, api_key, model, provider, base_url, output))
+    asyncio.run(_run_review("quick", file, api_key, model, provider, base_url, api_version, output))
 
 
 @app.command()
@@ -134,10 +141,11 @@ def simulate(
     model: ModelOpt = None,
     provider: ProviderOpt = None,
     base_url: BaseUrlOpt = None,
+    api_version: ApiVersionOpt = None,
     output: OutputOpt = None,
 ) -> None:
     """模拟审稿专家评审论文"""
-    asyncio.run(_run_review("reviewer", file, api_key, model, provider, base_url, output))
+    asyncio.run(_run_review("reviewer", file, api_key, model, provider, base_url, api_version, output))
 
 
 @app.command()
@@ -151,6 +159,7 @@ def check(
     model: ModelOpt = None,
     provider: ProviderOpt = None,
     base_url: BaseUrlOpt = None,
+    api_version: ApiVersionOpt = None,
     output: OutputOpt = None,
 ) -> None:
     """专项审查论文"""
@@ -163,7 +172,7 @@ def check(
         raise typer.Exit(1)
 
     asyncio.run(
-        _run_review(dimension, file, api_key, model, provider, base_url, output)
+        _run_review(dimension, file, api_key, model, provider, base_url, api_version, output)
     )
 
 
