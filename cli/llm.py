@@ -7,7 +7,7 @@ from typing import Protocol
 
 import httpx
 
-from cli.config import Config
+from cli.config import Config, build_endpoint
 
 
 class LLMClient(Protocol):
@@ -25,7 +25,7 @@ class AnthropicClient:
     async def stream(
         self, system_prompt: str, user_prompt: str
     ) -> AsyncIterator[str]:
-        url = f"{self._base_url}/v1/messages"
+        url = build_endpoint(self._base_url, self._config.api_version, "/messages")
         headers = {
             "x-api-key": self._config.api_key,
             "anthropic-version": "2023-06-01",
@@ -105,7 +105,7 @@ class OpenAIClient:
     async def stream(
         self, system_prompt: str, user_prompt: str
     ) -> AsyncIterator[str]:
-        url = f"{self._base_url}/v1/chat/completions"
+        url = build_endpoint(self._base_url, self._config.api_version, "/chat/completions")
         headers = {
             "authorization": f"Bearer {self._config.api_key}",
             "content-type": "application/json",
